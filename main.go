@@ -30,6 +30,12 @@ type MatchResult struct {
 	MatchType       string // "direct", "alternative", "ignored"
 }
 
+// waitForUserInput waits for the user to press Enter before continuing
+func waitForUserInput() {
+	fmt.Print("\nPress Enter to exit...")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+}
+
 // parseGuildFile reads and parses the guild.txt file
 func parseGuildFile(filename string) ([]Player, error) {
 	file, err := os.Open(filename)
@@ -547,4 +553,7 @@ func main() {
 	fmt.Printf("- Online players missing from sheet: %d\n", len(missingPlayers))
 	fmt.Printf("- Excluded players (special roles): %d\n", len(excludedPlayers))
 	fmt.Printf("- Sheet players not in guild: %d\n", len(sheetPlayersNotInGuild))
+
+	// Wait for user input if running from GUI (Windows Explorer double-click)
+	waitForUserInput()
 }
